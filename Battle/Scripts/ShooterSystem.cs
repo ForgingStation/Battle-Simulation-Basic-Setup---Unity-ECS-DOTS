@@ -72,6 +72,8 @@ public class ShooterSystem : SystemBase
             }
         }).ScheduleParallel();
 
+        es_ecb.AddJobHandleForProducer(Dependency);
+
         JobHandle jh = new ProjectileCollisionJob()
         {
             enemyGroup = GetComponentDataFromEntity<EnemyComponentData>(),
@@ -79,7 +81,6 @@ public class ShooterSystem : SystemBase
             ecb = es_ecb_Job.CreateCommandBuffer()
         }.Schedule(spw.Simulation, ref bpw.PhysicsWorld, Dependency);
 
-        es_ecb.AddJobHandleForProducer(Dependency);
         es_ecb_Job.AddJobHandleForProducer(jh);
     }
 
